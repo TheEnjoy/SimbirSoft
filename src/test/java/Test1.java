@@ -1,4 +1,5 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Description;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -28,8 +29,6 @@ public class Test1 {
         calculatorGoogle = new GoogleCalc(driver);
         driver.navigate().to("https://www.google.com/");
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-//        searchGoogle = new GoogleSearch(driver);
-//        searchGoogle.find("Калькулятор");
     }
 
     @Before

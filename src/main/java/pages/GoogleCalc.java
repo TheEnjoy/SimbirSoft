@@ -13,14 +13,6 @@ public class GoogleCalc {
     WebDriver driver;
 
     // Number button xpath
-//    By zeroButton = By.xpath(".//*[contains(@class, 'XRsWPe ') and contains(., '0')]");
-//    By oneButton = By.xpath(".//*[contains(@class, 'XRsWPe ') and contains(., '1')]");
-//    By twoButton = By.xpath(".//*[contains(@class, 'XRsWPe ') and contains(., '2')]");
-//    By threeButton = By.xpath(".//*[contains(@class, 'XRsWPe ') and contains(., '3')]");
-//    By fourButton = By.xpath(".//*[contains(@class, 'XRsWPe ') and contains(., '4')]");
-//    By fiveButton = By.xpath(".//*[contains(@class, 'XRsWPe ') and contains(., '5')]");
-//    By sixButton = By.xpath(".//*[contains(@class, 'XRsWPe ') and contains(., '6')]");
-
     @FindBy(xpath = "/html/body/div[7]/div/div[9]/div[1]/div/div[2]/div[2]/div/div/div[1]/div/div/div[1]/div/div/div[3]/div/table[2]/tbody/tr[5]/td[1]/div/div")
     @CacheLookup
     private static WebElement zeroButton;
@@ -52,30 +44,24 @@ public class GoogleCalc {
 
     // Operation css locator
     //#TODO think about localization, for US it`s not work
-//    By multButton = By.cssSelector("div[aria-label=\"умножение\"]");
-//    By divButton = By.cssSelector("div[aria-label=\"деление\"]");
-//    By minusButton = By.cssSelector("div[aria-label=\"вычитание\"]");
-//    By sumButton = By.cssSelector("div[aria-label=\"сложение\"]");
 
     @FindBy(css = "div[aria-label=\"умножение\"]")
     @CacheLookup
-    private static WebElement multButton;
+    private static WebElement multiplicationButton;
 
     @FindBy(css = "div[aria-label=\"деление\"]")
     @CacheLookup
-    private static WebElement divButton;
+    private static WebElement divisionButton;
 
     @FindBy(css = "div[aria-label=\"вычитание\"]")
     @CacheLookup
-    private static WebElement minusButton;
+    private static WebElement subtractionButton;
 
     @FindBy(css = "div[aria-label=\"сложение\"]")
     @CacheLookup
-    private static WebElement sumButton;
+    private static WebElement additionButton;
 
     // = button
-    //By resultButton = By.cssSelector("div[aria-label=\"равно\"]");
-
     @FindBy(css = "div[aria-label=\"равно\"]")
     @CacheLookup
     private static WebElement resultButton;
@@ -108,11 +94,6 @@ public class GoogleCalc {
 
     public GoogleCalc(WebDriver driver) {
         this.driver = driver;
-
-//        if (!"calculator".equals(driver.getTitle()) || !"калькулятор".equals(driver.getTitle())) {
-//            throw new IllegalStateException("This is not the calculator page");
-//        }
-
         PageFactory.initElements(driver, this);
     }
 
@@ -149,15 +130,15 @@ public class GoogleCalc {
                     break;
 
                 case 42:
-                    multButton.click();
+                    multiplicationButton.click();
                     break;
 
                 case 43:
-                    sumButton.click();
+                    additionButton.click();
                     break;
 
                 case 45:
-                    minusButton.click();
+                    subtractionButton.click();
                     break;
 
                 case 46: // .
@@ -165,7 +146,7 @@ public class GoogleCalc {
                     break;
 
                 case 47:
-                    divButton.click();
+                    divisionButton.click();
                     break;
 
                 case 48:
@@ -196,108 +177,12 @@ public class GoogleCalc {
                     sixButton.click();
                     break;
 
-//            case 55:
-//                Number7.click();
-//                break;
-//
-//            case 56:
-//                Number8.click();
-//                break;
-//
-//            case 57:
-//                Number9.click();
-//                break;
-
                 case 61:
                     resultButton.click();
                     break;
-//                default:
-//                    throw new IllegalStateException("Unexpected value: " + (int) character);
             }
         }
     }
 
-    private static void ClickElement(char character)
-    {
-        switch ((int)character)
-        {
-            case 73:
-//                continue;
-
-            case 40:
-                leftBracket.click();
-                break;
-
-            case 41:
-                rightBracket.click();
-                break;
-
-            case 42:
-                multButton.click();
-                break;
-
-            case 43:
-                sumButton.click();
-                break;
-
-            case 45:
-                minusButton.click();
-                break;
-
-            case 46: // .
-                dotButton.click();
-                break;
-
-            case 47:
-                divButton.click();
-                break;
-
-            case 48:
-                zeroButton.click();
-                break;
-
-            case 49:
-                oneButton.click();
-                break;
-
-            case 50:
-                twoButton.click();
-                break;
-
-            case 51:
-                threeButton.click();
-                break;
-
-            case 52:
-                fourButton.click();
-                break;
-
-            case 53:
-                fiveButton.click();
-                break;
-
-            case 54:
-                sixButton.click();
-                break;
-
-//            case 55:
-//                Number7.click();
-//                break;
-//
-//            case 56:
-//                Number8.click();
-//                break;
-//
-//            case 57:
-//                Number9.click();
-//                break;
-
-            case 61:
-                resultButton.click();
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + (int) character);
-        }
-    }
 
 }
