@@ -86,6 +86,7 @@ public class YandexTest {
 
 
         String countMail = "";
+        //#ToDo Custom until for webelement
         if(!driver.findElements(By.cssSelector("span[class*=\"mail-MessagesSearchInfo-Title_misc\"]")).isEmpty()){
             if (yandexMailPage.countMail.isDisplayed()){
                 System.out.println(yandexMailPage.countMail.getText());
@@ -95,7 +96,9 @@ public class YandexTest {
             }
         }
         else {
+            //# todo if no mail exist (example first run)
             if (yandexMailPage.notFound.isDisplayed()){
+                countMail = "0";
             }
         }
 
@@ -111,7 +114,7 @@ public class YandexTest {
             }
             driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
             yandexMailPage.themeMailForSend.click();
-            yandexMailPage.themeMailForSend.sendKeys("Simbirsoft theme");
+            yandexMailPage.themeMailForSend.sendKeys(YandexMailPage.THEME_MAIL);
             yandexMailPage.bodyMailForSend.click();
             yandexMailPage.bodyMailForSend.sendKeys(yandexMailPage.textForSend(countMail.replaceAll("\\D+","")));
             yandexMailPage.buttonForSendMail.click();
