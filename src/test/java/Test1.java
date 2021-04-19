@@ -2,11 +2,10 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Description;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.*;
 import pages.GoogleCalc;
 import pages.GoogleSearch;
 
@@ -18,12 +17,12 @@ public class Test1 {
     private static WebDriver driver;
     //protected GoogleCalc calculatorGoogle;
 
-    @BeforeClass
+    @BeforeSuite
     public static void setupClass() {
         WebDriverManager.chromedriver().setup();
     }
 
-    @Before
+    @BeforeSuite
     public void setupTest() {
         driver = new ChromeDriver();
         calculatorGoogle = new GoogleCalc(driver);
@@ -31,13 +30,13 @@ public class Test1 {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
-    @Before
+    @BeforeTest
     public void findCalcPage(){
         searchGoogle = new GoogleSearch(driver);
         searchGoogle.find("Калькулятор");
     }
 
-    @After
+    @AfterTest
     public void teardown() {
         if (driver != null) {
             driver.quit();
@@ -48,7 +47,7 @@ public class Test1 {
 //    public void test() {
 //
 //    }
-
+   @Description("Checking the title of the loaded page.")
    @Test
     public void caseOne()
     {
