@@ -21,7 +21,7 @@ public class YandexLoginPage {
     public WebElement textAddedText;
 
     @FindBy(css = "div[data-t*=\"email_skip\"]")
-    public WebElement dataT;
+    public WebElement noMessage;
 
     @FindBy(css = "div[class*=\"desk-notif-card__mail-title\"]")
     public WebElement mailOpenButton;

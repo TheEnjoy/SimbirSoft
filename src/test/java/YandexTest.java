@@ -59,8 +59,8 @@ public class YandexTest {
             yandexLoginPage.buttonLogin.click();
         }
         if(yandexLoginPage.textAddedText.getText().contains("Ваш")) {
-            if (yandexLoginPage.textAddedText.isDisplayed() && yandexLoginPage.dataT.isDisplayed() && yandexLoginPage.dataT.isEnabled()) {
-                yandexLoginPage.dataT.click();
+            if (yandexLoginPage.textAddedText.isDisplayed() && yandexLoginPage.noMessage.isDisplayed() && yandexLoginPage.noMessage.isEnabled()) {
+                yandexLoginPage.noMessage.click();
             }
         }
         if (yandexLoginPage.mailOpenButton.isDisplayed()) {
@@ -116,8 +116,22 @@ public class YandexTest {
             yandexMailPage.themeMailForSend.click();
             yandexMailPage.themeMailForSend.sendKeys(YandexMailPage.THEME_MAIL);
             yandexMailPage.bodyMailForSend.click();
+            //# toDo set regexp to constant
             yandexMailPage.bodyMailForSend.sendKeys(yandexMailPage.textForSend(countMail.replaceAll("\\D+","")));
             yandexMailPage.buttonForSendMail.click();
+            yandexMailPage.linkBackToMainPage.click();
+
+            if (yandexMailPage.searchInput.isDisplayed() && yandexMailPage.searchInput.isEnabled()) {
+                yandexMailPage.searchInput.click();
+                yandexMailPage.searchInput.sendKeys(YandexMailPage.THEME_MAIL);
+            }
+
+            driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+
+            if (yandexMailPage.findButton.isDisplayed()) {
+                yandexMailPage.findButton.click();
+            }
+
         }
 
     }
@@ -131,7 +145,6 @@ public class YandexTest {
 
     @Description("Checking the increase in the number of letters.")
     @Test
-    @Ignore
     public void caseIncreaseInNumberOfLetters() {
        int wasMailQuantity = Integer.parseInt(yandexMailPage.lastFindMail.getText().replaceAll("\\D+",""));
        int nowMailQuantity =  Integer.parseInt(yandexMailPage.countMail.getText().replaceAll("\\D+",""));
