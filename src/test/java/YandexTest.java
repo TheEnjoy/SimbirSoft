@@ -40,11 +40,7 @@ public class YandexTest {
         yandexLoginPage = new YandexLoginPage(driver);
         yandexMailPage = new YandexMailPage(driver);
         yandexMainPage.loginButton.click();
-//        By test = yandexLoginPage.titleYandex;
-//        test.wait();
-        WebElement dynamicElement;
-//        dynamicElement = (new WebDriverWait(driver, 20))
-//                .until(ExpectedConditions.presenceOfElementLocated(test));
+
         boolean inputLoginIsDisplayed = yandexLoginPage.inputLogin.isDisplayed();
         boolean inputLoginIsEnabled = yandexLoginPage.inputLogin.isEnabled();
         while (!yandexLoginPage.inputLogin.isDisplayed()) {
