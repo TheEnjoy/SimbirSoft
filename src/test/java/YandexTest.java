@@ -40,11 +40,7 @@ public class YandexTest {
         yandexLoginPage = new YandexLoginPage(driver);
         yandexMailPage = new YandexMailPage(driver);
         yandexMainPage.loginButton.click();
-//        By test = yandexLoginPage.titleYandex;
-//        test.wait();
-        WebElement dynamicElement;
-//        dynamicElement = (new WebDriverWait(driver, 20))
-//                .until(ExpectedConditions.presenceOfElementLocated(test));
+
         boolean inputLoginIsDisplayed = yandexLoginPage.inputLogin.isDisplayed();
         boolean inputLoginIsEnabled = yandexLoginPage.inputLogin.isEnabled();
         while (!yandexLoginPage.inputLogin.isDisplayed()) {
@@ -71,16 +67,6 @@ public class YandexTest {
             yandexLoginPage.mailOpenButton.click();
         }
         driver.findElement(By.cssSelector("body")).sendKeys(Keys.chord(Keys.CONTROL, "i"));
-
-//        while (!yandexMailPage.searchInput.isDisplayed()) {
-//            try {
-//                wait(20);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
-//        WebDriverWait wait = new WebDriverWait(driver, 20);
 
         driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
