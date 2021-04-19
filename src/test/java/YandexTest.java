@@ -117,24 +117,6 @@ public class YandexTest {
             yandexMailPage.buttonForSendMail.click();
         }
 
-
-//
-//        if(yandexMailPage.sendToInput.isDisplayed() && yandexMailPage.sendToInput.isEnabled()){
-//            yandexMailPage.sendToInput.click();
-//        }
-
-
-
-
-
-
-
-//        WebDriverWait wait = new WebDriverWait(driver, 60);
-//        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(test));
-//        yandexLoginPage.find("Калькулятор");
-//        dynamicElement.click();
-//        dynamicElement.click();
-
     }
 
     @AfterTest
