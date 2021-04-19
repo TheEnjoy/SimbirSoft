@@ -86,7 +86,7 @@ public class YandexTest {
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
         driver.switchTo().window(tabs.get(1)); //switches to new tab
-
+        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         if (yandexMailPage.searchInput.isDisplayed() && yandexMailPage.searchInput.isEnabled()) {
             yandexMailPage.searchInput.click();
             yandexMailPage.searchInput.sendKeys("Simbirsoft theme");
@@ -99,16 +99,47 @@ public class YandexTest {
         }
 
 
-
-        if(yandexMailPage.notFound.isDisplayed()){
-
-        }
-        else {
+        String countMail = "";
+        if(!driver.findElements(By.cssSelector("span[class*=\"mail-MessagesSearchInfo-Title_misc\"]")).isEmpty()){
             if (yandexMailPage.countMail.isDisplayed()){
                 System.out.println(yandexMailPage.countMail.getText());
                 System.out.println(yandexMailPage.countMail.getText());
+                countMail = yandexMailPage.countMail.getText();
+
             }
         }
+        else {
+            if (yandexMailPage.notFound.isDisplayed()){
+            }
+        }
+
+        if(yandexMailPage.writeMailButton.isDisplayed() && yandexMailPage.writeMailButton.isEnabled()){
+            yandexMailPage.writeMailButton.click();
+        }
+
+        if(yandexMailPage.sendToInput.isDisplayed() && yandexMailPage.sendToInput.isEnabled()){
+            yandexMailPage.sendToInput.click();
+            driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+            if(  yandexMailPage.contactMailForSend.getText().contains(YandexMailPage.MY_MAIL)) {
+                yandexMailPage.contactMailForSend.click();
+            }
+            driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+            yandexMailPage.themeMailForSend.click();
+            yandexMailPage.themeMailForSend.sendKeys("Simbirsoft theme");
+            yandexMailPage.bodyMailForSend.click();
+            yandexMailPage.bodyMailForSend.sendKeys(yandexMailPage.textForSend(countMail.replaceAll("\\D+","")));
+            yandexMailPage.buttonForSendMail.click();
+        }
+
+
+//
+//        if(yandexMailPage.sendToInput.isDisplayed() && yandexMailPage.sendToInput.isEnabled()){
+//            yandexMailPage.sendToInput.click();
+//        }
+
+
+
+
 
 
 
@@ -127,31 +158,13 @@ public class YandexTest {
         }
     }
 
-    @Description("Checking the title of the loaded page.")
+    @Description("Checking the increase in the number of letters.")
     @Test
     @Ignore
-    public void caseOne() {
-        String expression = "(1+2)*3-40/5";
-//        GoogleCalc.inputValue(expression);
-//        Assert.assertEquals(calculatorGoogle.getResult(), "1" );
-//        Assert.assertEquals(calculatorGoogle.getHistory(),"(1 + 2) × 3 - 40 ÷ 5 =");
+    public void caseIncreaseInNumberOfLetters() {
+       int wasMailQuantity = Integer.parseInt(yandexMailPage.lastFindMail.getText().replaceAll("\\D+",""));
+       int nowMailQuantity =  Integer.parseInt(yandexMailPage.countMail.getText().replaceAll("\\D+",""));
+        Assert.assertTrue(wasMailQuantity < nowMailQuantity);
     }
 
-    @Test
-    @Ignore
-    public void caseTwo() {
-        String expression = "6/0";
-        GoogleCalc.inputValue(expression);
-//        Assert.assertEquals(calculatorGoogle.getResult(), "Infinity");
-//        Assert.assertEquals(calculatorGoogle.getHistory(),"6 ÷ 0 =");
-    }
-
-    @Test
-    @Ignore
-    public void caseThree() {
-        String expression = "sin(";
-        GoogleCalc.inputValue(expression);
-//        Assert.assertEquals(calculatorGoogle.getResult(), "Error");
-//        Assert.assertEquals(calculatorGoogle.getHistory(),"sin(()) =");
-    }
 }
