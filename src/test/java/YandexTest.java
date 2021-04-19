@@ -51,11 +51,11 @@ public class YandexTest {
             }
         }
         if (inputLoginIsDisplayed && inputLoginIsEnabled) {
-            yandexLoginPage.inputLogin.sendKeys("akuz0419.1");
+            yandexLoginPage.inputLogin.sendKeys(YandexMailPage.MY_MAIL);
             yandexLoginPage.buttonLogin.click();
         }
         if (yandexLoginPage.inputPassword.isDisplayed() && yandexLoginPage.inputPassword.isEnabled()) {
-            yandexLoginPage.inputPassword.sendKeys("1");
+            yandexLoginPage.inputPassword.sendKeys(YandexMailPage.MY_PASSWORD);
             yandexLoginPage.buttonLogin.click();
         }
         if(yandexLoginPage.textAddedText.getText().contains("Ваш")) {
@@ -75,7 +75,7 @@ public class YandexTest {
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         if (yandexMailPage.searchInput.isDisplayed() && yandexMailPage.searchInput.isEnabled()) {
             yandexMailPage.searchInput.click();
-            yandexMailPage.searchInput.sendKeys("Simbirsoft theme");
+            yandexMailPage.searchInput.sendKeys(YandexMailPage.THEME_MAIL);
        }
 
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
