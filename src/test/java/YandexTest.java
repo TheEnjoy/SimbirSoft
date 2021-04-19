@@ -59,7 +59,7 @@ public class YandexTest {
             yandexLoginPage.buttonLogin.click();
         }
         if (yandexLoginPage.inputPassword.isDisplayed() && yandexLoginPage.inputPassword.isEnabled()) {
-            yandexLoginPage.inputPassword.sendKeys("12021966");
+            yandexLoginPage.inputPassword.sendKeys("1");
             yandexLoginPage.buttonLogin.click();
         }
         if(yandexLoginPage.textAddedText.getText().contains("Ваш")) {
