@@ -11,7 +11,10 @@ public class YandexMainPage {
     public WebElement loginButton;
 
     public YandexMainPage(WebDriver driver) {
-        WebDriverWait wait = new WebDriverWait(driver, 15, 50);
         PageFactory.initElements(driver, this);
+    }
+
+    public void clickLoginButton() {
+        loginButton.click();
     }
 }

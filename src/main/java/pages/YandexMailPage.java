@@ -1,14 +1,16 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class YandexMailPage {
+
+    //#todo think about it
     @FindBy(css = "input[placeholder*=\"Поиск\"]")
+//    @FindBy(xpath = ".//span[@class='textinput__box']")
     public WebElement searchInput;
 
     @FindBy(css = "button[class$=\"search-input__form-button\"]")
@@ -20,7 +22,8 @@ public class YandexMailPage {
     @FindBy(css = "span[class*=\"mail-MessagesSearchInfo-Title_misc\"]")
     public WebElement countMail;
 
-    @FindBy(css = "a[title*=\"Написать\"]")
+//    @FindBy(css = "a[title*=\"Написать\"]")
+    @FindBy(css = "a[href*=\"#compose\"]")
     public WebElement writeMailButton;
 
     @FindBy(css = ".ComposeRecipients-ToField > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)")
@@ -38,18 +41,118 @@ public class YandexMailPage {
     @FindBy(css = ".ComposeControlPanelButton-Button_action")
     public WebElement buttonForSendMail;
 
-    @FindBy(xpath = "/html/body/div[2]/div[8]/div/div[3]/div[3]/div[2]/div[5]/div[1]/div/div/div[2]/div/div[2]/div/div/div/a/div/span[2]/div/span/span[2]/span")
+    @FindBy(xpath = "(.//span[contains(@class, 'mail-MessageSnippet-Item') and contains(@class, 'mail-MessageSnippet-Item_firstline')])[1]")
     public WebElement lastFindMail;
 
-    @FindBy(css = "body > div.popup2.popup2_view_classic.popup2_direction_bottom-left.popup2_visible_yes.popup2_target_position.popup2_motionless.ComposeDoneScreen > div > div.ComposeDoneScreen-Header > div.ComposeDoneScreen-Actions > a")
+    @FindBy(xpath = "(.//a[contains(@class, 'link_theme_normal')])[1]")
     public WebElement linkBackToMainPage;
 
-    public static final String MY_MAIL = "1@yandex.ru";
-    public static final String MY_PASSWORD = "123";
-    public static final String THEME_MAIL = "Simbirsoft theme";
+    WebDriver driver;
     public YandexMailPage(WebDriver driver) {
-        WebDriverWait wait = new WebDriverWait(driver, 15, 50);
+        this.driver = driver;
         PageFactory.initElements(driver, this);
+    }
+
+    //contains region
+    public Boolean contactMailForSendContainsValue(String value) {
+        return contactMailForSend.getText().contains(value);
+    }
+
+    //enabled region
+    public Boolean searchInputIsEnabled() {
+        return searchInput.isEnabled();
+    }
+
+    public Boolean writeMailButtonIsEnabled() {
+        return writeMailButton.isEnabled();
+    }
+
+    public Boolean sendToInputIsEnabled() {
+        return sendToInput.isEnabled();
+    }
+
+    // click region
+    public void clickSendToInput() {
+        sendToInput.click();
+    }
+
+    public void clickSearchInput() {
+        searchInput.click();
+    }
+
+    public void clickThemeMailForSend() {
+        themeMailForSend.click();
+    }
+
+    public void clickContactMailForSend() {
+        contactMailForSend.click();
+    }
+
+    public void clickWriteMailButton() {
+        writeMailButton.click();
+    }
+
+    public void clickFindButton() {
+        findButton.click();
+    }
+
+    public void clickBodyMailForSend() {
+        bodyMailForSend.click();
+    }
+
+    public void clickButtonForSendMail() {
+        buttonForSendMail.click();
+    }
+
+    public void clickLinkBackToMainPage() {
+        linkBackToMainPage.click();
+    }
+
+
+    //send key region
+    public void searchThemeMail(String themeMail) {
+        searchInput.sendKeys(themeMail);
+    }
+
+    public void setThemeMail(String themeMail) {
+        themeMailForSend.sendKeys(themeMail);
+    }
+
+    public void setBodyMailForSend(String themeMail) {
+        bodyMailForSend.sendKeys(themeMail);
+    }
+
+
+    //isDisplayed region
+    public Boolean findButtonIsDisplayed() {
+        return findButton.isDisplayed();
+    }
+
+    public Boolean notFoundIsDisplayed() {
+        return notFound.isDisplayed();
+    }
+
+    public Boolean countMailIsDisplayed() {
+        return countMail.isDisplayed();
+    }
+
+    //get text region
+    public String getQuantityMail(){
+        return countMail.getText();
+    }
+
+    public String getWasQuantityMail(){
+        return lastFindMail.getText();
+    }
+
+    //
+    public Boolean checkMailIsPresent() {
+       return driver.findElements(By.cssSelector("span[class*=\"mail-MessagesSearchInfo-Title_misc\"]")).isEmpty();
+    }
+
+    public int getDigitFromString(String value){
+        String digitRegExp = "\\D+";
+        return Integer.parseInt(value.replaceAll(digitRegExp,""));
     }
 
     public String textForSend(String numberText){
