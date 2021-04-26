@@ -8,9 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public class YandexMailPage {
 
-    //#todo think about it
-    @FindBy(css = "input[placeholder*=\"Поиск\"]")
-//    @FindBy(xpath = ".//span[@class='textinput__box']")
+   @FindBy(xpath = ".//input[@class='textinput__control']")
     public WebElement searchInput;
 
     @FindBy(css = "button[class$=\"search-input__form-button\"]")
@@ -22,7 +20,7 @@ public class YandexMailPage {
     @FindBy(css = "span[class*=\"mail-MessagesSearchInfo-Title_misc\"]")
     public WebElement countMail;
 
-//    @FindBy(css = "a[title*=\"Написать\"]")
+    //    @FindBy(css = "a[title*=\"Написать\"]")
     @FindBy(css = "a[href*=\"#compose\"]")
     public WebElement writeMailButton;
 
@@ -47,18 +45,19 @@ public class YandexMailPage {
     @FindBy(xpath = "(.//a[contains(@class, 'link_theme_normal')])[1]")
     public WebElement linkBackToMainPage;
 
-    WebDriver driver;
+    protected WebDriver driver;
+
+    By messagesSearchInfoTitle = By.cssSelector("span[class*=\"mail-MessagesSearchInfo-Title_misc\"]");
+
     public YandexMailPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
-    //contains region
     public Boolean contactMailForSendContainsValue(String value) {
         return contactMailForSend.getText().contains(value);
     }
 
-    //enabled region
     public Boolean searchInputIsEnabled() {
         return searchInput.isEnabled();
     }
@@ -71,7 +70,6 @@ public class YandexMailPage {
         return sendToInput.isEnabled();
     }
 
-    // click region
     public void clickSendToInput() {
         sendToInput.click();
     }
@@ -108,8 +106,6 @@ public class YandexMailPage {
         linkBackToMainPage.click();
     }
 
-
-    //send key region
     public void searchThemeMail(String themeMail) {
         searchInput.sendKeys(themeMail);
     }
@@ -122,8 +118,6 @@ public class YandexMailPage {
         bodyMailForSend.sendKeys(themeMail);
     }
 
-
-    //isDisplayed region
     public Boolean findButtonIsDisplayed() {
         return findButton.isDisplayed();
     }
@@ -136,42 +130,27 @@ public class YandexMailPage {
         return countMail.isDisplayed();
     }
 
-    //get text region
-    public String getQuantityMail(){
+    public String getQuantityMail() {
         return countMail.getText();
     }
 
-    public String getWasQuantityMail(){
-        return lastFindMail.getText();
-    }
-
-    //
     public Boolean checkMailIsPresent() {
-       return driver.findElements(By.cssSelector("span[class*=\"mail-MessagesSearchInfo-Title_misc\"]")).isEmpty();
+        return driver.findElements(messagesSearchInfoTitle).isEmpty();
     }
 
-    public int getDigitFromString(String value){
-        String digitRegExp = "\\D+";
-        return Integer.parseInt(value.replaceAll(digitRegExp,""));
+    public void searchMailInInput(String themeMail) {
+        clickSearchInput();
+        searchThemeMail(themeMail);
     }
 
-    public String textForSend(String numberText){
-        int number = Integer.parseInt(numberText);
-        int lastDigit = number % 100 / 10;
-        if (lastDigit == 1)
-        {
-            return String.format("Найдено %s писем", numberText);
-        }
-        switch (number % 10)
-        {
-            case 1:
-                return String.format("Найдено %s письмо", numberText);
-            case 2:
-            case 3:
-            case 4:
-                return String.format("Найдено %s письма", numberText);
-            default:
-                return String.format("Найдено %s писем", numberText);
-        }
+    public void clickAndSetThemeMail(String themeMail) {
+        clickThemeMailForSend();
+        setThemeMail(themeMail);
+    }
+
+    public void clickAndsStBodyMailForSend(String textForSend) {
+        setBodyMailForSend(textForSend);
+        clickButtonForSendMail();
+
     }
 }

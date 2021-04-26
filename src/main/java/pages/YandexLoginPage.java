@@ -6,10 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class YandexLoginPage {
-    WebDriver driver;
+    protected WebDriver driver;
 
     @FindBy(css = "#passp-field-login")
     private WebElement inputLogin;
@@ -32,14 +31,12 @@ public class YandexLoginPage {
     // Locator for send keys to body;
     By body = By.cssSelector("body");
 
-    //#ToDo Create custom waiting until WebElement
     public YandexLoginPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
 
     }
 
-    //enabled region
     public Boolean inputLoginIsEnabled() {
         return inputLogin.isEnabled();
     }
@@ -64,12 +61,10 @@ public class YandexLoginPage {
         return mailOpenButton.isEnabled();
     }
 
-    //isDisplayed region
     public Boolean inputLoginIsDisplayed() {
         return inputLogin.isDisplayed();
     }
 
-    //send key region
     public void setLogin(String email) {
         inputLogin.sendKeys(email);
     }
@@ -78,7 +73,6 @@ public class YandexLoginPage {
         inputPassword.sendKeys(password);
     }
 
-    // click region
     public void clickLoginButton() {
         buttonLogin.click();
     }
@@ -91,18 +85,25 @@ public class YandexLoginPage {
         mailOpenButton.click();
     }
 
-    //contains region
     public Boolean textAddedTextContainsValue(String value) {
         return textAddedText.getText().contains(value);
     }
 
-    //another methods
     public void openInboxMail() {
         driver.findElement(body).sendKeys(Keys.chord(Keys.CONTROL, "i"));
     }
 
+    public void clickAndOpenInboxMail() {
+        clickMailOpenButton();
+        openInboxMail();
+    }
 
-
+    public void authorization(String login, String password) {
+        setLogin(login);
+        clickLoginButton();
+        setPassword(password);
+        clickLoginButton();
+    }
 
 
 }

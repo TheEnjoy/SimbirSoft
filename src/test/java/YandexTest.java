@@ -18,13 +18,11 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class YandexTest {
-    private static YandexMainPage yandexMainPage;
-    private static YandexLoginPage yandexLoginPage;
-    private static YandexMailPage yandexMailPage;
-    private static WebDriver driver;
+    private YandexMainPage yandexMainPage;
+    private WebDriver driver;
 
     @BeforeTest
-    public static void setupClass() {
+    public void setupClass() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         yandexMainPage = new YandexMainPage(driver);
@@ -43,12 +41,9 @@ public class YandexTest {
     @Description("Checking the increase in the number of letters.")
     @Test
     public void caseIncreaseInNumberOfLetters() throws IOException {
-        yandexLoginPage = new YandexLoginPage(driver);
-        yandexMailPage = new YandexMailPage(driver);
+        YandexLoginPage yandexLoginPage = new YandexLoginPage(driver);
+        YandexMailPage yandexMailPage = new YandexMailPage(driver);
         yandexMainPage.clickLoginButton();
-
-
-        boolean inputLoginIsEnabled = yandexLoginPage.inputLoginIsEnabled();
         while (!yandexLoginPage.inputLoginIsDisplayed()) {
             try {
                 wait(20);
@@ -56,74 +51,42 @@ public class YandexTest {
                 e.printStackTrace();
             }
         }
-        if (inputLoginIsEnabled) {
-            yandexLoginPage.setLogin(Utlis.getPropValues("yandex.login"));
-            yandexLoginPage.clickLoginButton();
-        }
-        if (yandexLoginPage.inputPasswordIsEnabled()) {
-            yandexLoginPage.setPassword(Utlis.getPropValues("yandex.password"));
-            yandexLoginPage.clickLoginButton();
-        }
+        yandexLoginPage.authorization(Utlis.getPropValues("yandex.login"), Utlis.getPropValues("yandex.password"));
         if (yandexLoginPage.textAddedTextContainsValue("Ваш")) {
             if (yandexLoginPage.noMessageIsEnabled()) {
                 yandexLoginPage.clickNoMessageButton();
             }
         }
-        yandexLoginPage.clickMailOpenButton();
-        yandexLoginPage.openInboxMail();
+        yandexLoginPage.clickAndOpenInboxMail();
         ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
         driver.switchTo().window(tabs.get(1)); //switches to new tab
-        if (yandexMailPage.searchInputIsEnabled()) {
-            yandexMailPage.clickSearchInput();
-            yandexMailPage.searchThemeMail(Utlis.getPropValues("yandex.thememail"));
-        }
-        if (yandexMailPage.findButtonIsDisplayed()) {
-            yandexMailPage.clickFindButton();
-        }
+        yandexMailPage.searchThemeMail(Utlis.getPropValues("yandex.thememail"));
+        yandexMailPage.clickFindButton();
         String countMail = "";
-        //#ToDo Custom until for webelement
         if (!yandexMailPage.checkMailIsPresent()) {
             if (yandexMailPage.countMailIsDisplayed()) {
                 countMail = yandexMailPage.getQuantityMail();
             }
         } else {
-            //# todo if no mail exist (example first run)
             if (yandexMailPage.notFoundIsDisplayed()) {
                 countMail = "0";
             }
         }
-
-        if (yandexMailPage.writeMailButtonIsEnabled()) {
-            yandexMailPage.clickWriteMailButton();
-        }
-
+        yandexMailPage.clickWriteMailButton();
         if (yandexMailPage.sendToInputIsEnabled()) {
             yandexMailPage.clickSendToInput();
             if (yandexMailPage.contactMailForSendContainsValue(Utlis.getPropValues("yandex.login"))) {
                 yandexMailPage.clickContactMailForSend();
             }
-            yandexMailPage.clickThemeMailForSend();
-            yandexMailPage.setThemeMail(Utlis.getPropValues("yandex.thememail"));
+            yandexMailPage.clickAndSetThemeMail(Utlis.getPropValues("yandex.thememail"));
             yandexMailPage.clickBodyMailForSend();
-            //# toDo set regexp to constant
-            yandexMailPage.setBodyMailForSend(yandexMailPage.textForSend(countMail.replaceAll("\\D+", "")));
-            yandexMailPage.clickButtonForSendMail();
-
+            yandexMailPage.clickAndsStBodyMailForSend(Utlis.textForSend(countMail.replaceAll("\\D+", "")));
             yandexMailPage.clickLinkBackToMainPage();
-
-            if (yandexMailPage.searchInputIsEnabled()) {
-                yandexMailPage.clickSearchInput();
-                yandexMailPage.searchThemeMail(Utlis.getPropValues("yandex.thememail"));
-            }
-
+            yandexMailPage.searchMailInInput(Utlis.getPropValues("yandex.thememail"));
             yandexMailPage.clickFindButton();
-
-
         }
-
-
-        int wasMailQuantity = yandexMailPage.getDigitFromString(yandexMailPage.getWasQuantityMail());
-        int nowMailQuantity = yandexMailPage.getDigitFromString(yandexMailPage.getQuantityMail());
+        int wasMailQuantity = Integer.parseInt(countMail);
+        int nowMailQuantity = Utlis.getDigitFromString(yandexMailPage.getQuantityMail());
         Assert.assertTrue(wasMailQuantity < nowMailQuantity);
     }
 

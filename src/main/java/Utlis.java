@@ -8,6 +8,7 @@ import java.util.Properties;
 public class Utlis {
     static InputStream inputStream;
     static String result = "";
+
     public static String getPropValues(String value) throws IOException {
 
         try {
@@ -35,5 +36,28 @@ public class Utlis {
             inputStream.close();
         }
         return result;
+    }
+
+    public static int getDigitFromString(String value) {
+        String digitRegExp = "\\D+";
+        return Integer.parseInt(value.replaceAll(digitRegExp, ""));
+    }
+
+    public static String textForSend(String numberText) {
+        int number = Integer.parseInt(numberText);
+        int lastDigit = number % 100 / 10;
+        if (lastDigit == 1) {
+            return String.format("Найдено %s писем", numberText);
+        }
+        switch (number % 10) {
+            case 1:
+                return String.format("Найдено %s письмо", numberText);
+            case 2:
+            case 3:
+            case 4:
+                return String.format("Найдено %s письма", numberText);
+            default:
+                return String.format("Найдено %s писем", numberText);
+        }
     }
 }
