@@ -43,21 +43,20 @@ public class Utlis {
         return Integer.parseInt(value.replaceAll(digitRegExp, ""));
     }
 
-    public static String textForSend(String numberText) {
-        int number = Integer.parseInt(numberText);
+    public static String generateTextForSend(int number) {
         int lastDigit = number % 100 / 10;
         if (lastDigit == 1) {
-            return String.format("Найдено %s писем", numberText);
+            return String.format("Найдено %s писем", number);
         }
         switch (number % 10) {
             case 1:
-                return String.format("Найдено %s письмо", numberText);
+                return String.format("Найдено %s письмо", number);
             case 2:
             case 3:
             case 4:
-                return String.format("Найдено %s письма", numberText);
+                return String.format("Найдено %s письма", number);
             default:
-                return String.format("Найдено %s писем", numberText);
+                return String.format("Найдено %s писем", number);
         }
     }
 }

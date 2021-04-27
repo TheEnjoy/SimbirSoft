@@ -8,7 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public class YandexMailPage {
 
-   @FindBy(xpath = ".//input[@class='textinput__control']")
+    @FindBy(xpath = ".//input[@class='textinput__control']")
     public WebElement searchInput;
 
     @FindBy(css = "button[class$=\"search-input__form-button\"]")
@@ -108,6 +108,7 @@ public class YandexMailPage {
 
     public void searchThemeMail(String themeMail) {
         searchInput.sendKeys(themeMail);
+        clickFindButton();
     }
 
     public void setThemeMail(String themeMail) {
@@ -152,5 +153,31 @@ public class YandexMailPage {
         setBodyMailForSend(textForSend);
         clickButtonForSendMail();
 
+    }
+
+    public int generateAndReturnQuantityMail() {
+        if (!checkMailIsPresent()) {
+            if (countMailIsDisplayed()) {
+                return Integer.parseInt(getQuantityMail().replaceAll("\\D+", ""));
+            }
+        } else {
+            if (notFoundIsDisplayed()) {
+                return 0;
+            }
+        }
+        return 0;
+    }
+
+    public void sendMail(String login, String theme, String quantityMail) {
+        clickSendToInput();
+        if (contactMailForSendContainsValue(login)) {
+            clickContactMailForSend();
+        }
+        clickAndSetThemeMail(theme);
+        clickBodyMailForSend();
+        clickAndsStBodyMailForSend(quantityMail);
+        clickLinkBackToMainPage();
+        searchMailInInput(theme);
+        clickFindButton();
     }
 }

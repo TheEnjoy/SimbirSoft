@@ -29,7 +29,7 @@ public class YandexLoginPage {
     private WebElement mailOpenButton;
 
     // Locator for send keys to body;
-    By body = By.cssSelector("body");
+    private By body = By.cssSelector("body");
 
     public YandexLoginPage(WebDriver driver) {
         this.driver = driver;
@@ -104,6 +104,4 @@ public class YandexLoginPage {
         setPassword(password);
         clickLoginButton();
     }
-
-
 }
