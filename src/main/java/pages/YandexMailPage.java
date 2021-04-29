@@ -140,12 +140,10 @@ public class YandexMailPage {
     }
 
     public void searchMailInInput(String themeMail) {
-        clickSearchInput();
         searchThemeMail(themeMail);
     }
 
     public void clickAndSetThemeMail(String themeMail) {
-        clickThemeMailForSend();
         setThemeMail(themeMail);
     }
 
@@ -174,7 +172,6 @@ public class YandexMailPage {
             clickContactMailForSend();
         }
         clickAndSetThemeMail(theme);
-        clickBodyMailForSend();
         clickAndsStBodyMailForSend(quantityMail);
         clickLinkBackToMainPage();
     }
