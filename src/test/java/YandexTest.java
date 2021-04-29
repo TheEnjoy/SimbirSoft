@@ -55,11 +55,10 @@ public class YandexTest {
 
         int countMail = yandexMailPage.generateAndReturnQuantityMail();
         yandexMailPage.clickWriteMailButton();
-        if (yandexMailPage.sendToInputIsEnabled()) {
-            yandexMailPage.sendMail(Utlis.getPropValues("yandex.login"),Utlis.getPropValues("yandex.thememail"), Utlis.generateTextForSend(countMail));
-        }
+        yandexMailPage.sendMail(Utlis.getPropValues("yandex.login"), Utlis.getPropValues("yandex.thememail"), Utlis.generateTextForSend(countMail));
+
         int wasMailQuantity = countMail;
-        int nowMailQuantity =yandexMailPage.getCurrentQuantityMail(Utlis.getPropValues("yandex.thememail"));
+        int nowMailQuantity = yandexMailPage.getCurrentQuantityMail(Utlis.getPropValues("yandex.thememail"));
         Assert.assertTrue(wasMailQuantity < nowMailQuantity);
     }
 
