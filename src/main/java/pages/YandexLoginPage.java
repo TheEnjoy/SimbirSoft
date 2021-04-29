@@ -31,6 +31,8 @@ public class YandexLoginPage {
     // Locator for send keys to body;
     private By body = By.cssSelector("body");
 
+    public By inputLoginBy = By.cssSelector("#passp-field-login");
+
     public YandexLoginPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -103,5 +105,13 @@ public class YandexLoginPage {
         clickLoginButton();
         setPassword(password);
         clickLoginButton();
+    }
+
+    public void skipPopupIfExist() {
+        if (textAddedTextContainsValue("Ваш")) {
+            if (noMessageIsEnabled()) {
+                clickNoMessageButton();
+            }
+        }
     }
 }

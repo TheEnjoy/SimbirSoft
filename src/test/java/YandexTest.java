@@ -44,19 +44,10 @@ public class YandexTest {
         YandexLoginPage yandexLoginPage = new YandexLoginPage(driver);
         YandexMailPage yandexMailPage = new YandexMailPage(driver);
         yandexMainPage.clickLoginButton();
-        while (!yandexLoginPage.inputLoginIsDisplayed()) {
-            try {
-                wait(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+        wait.until(ExpectedConditions.elementToBeClickable(yandexLoginPage.inputLoginBy));
         yandexLoginPage.authorization(Utlis.getPropValues("yandex.login"), Utlis.getPropValues("yandex.password"));
-        if (yandexLoginPage.textAddedTextContainsValue("Ваш")) {
-            if (yandexLoginPage.noMessageIsEnabled()) {
-                yandexLoginPage.clickNoMessageButton();
-            }
-        }
+        yandexLoginPage.skipPopupIfExist();
         yandexLoginPage.clickAndOpenInboxMail();
         ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
         driver.switchTo().window(tabs.get(1)); //switches to new tab
@@ -65,10 +56,10 @@ public class YandexTest {
         int countMail = yandexMailPage.generateAndReturnQuantityMail();
         yandexMailPage.clickWriteMailButton();
         if (yandexMailPage.sendToInputIsEnabled()) {
-            yandexMailPage.sendMail(Utlis.getPropValues("yandex.login"), Utlis.getPropValues("yandex.thememail"), Utlis.generateTextForSend(countMail));
+            yandexMailPage.sendMail(Utlis.getPropValues("yandex.login"),Utlis.getPropValues("yandex.thememail"), Utlis.generateTextForSend(countMail));
         }
         int wasMailQuantity = countMail;
-        int nowMailQuantity = Utlis.getDigitFromString(yandexMailPage.getQuantityMail());
+        int nowMailQuantity =yandexMailPage.getCurrentQuantityMail(Utlis.getPropValues("yandex.thememail"));
         Assert.assertTrue(wasMailQuantity < nowMailQuantity);
     }
 

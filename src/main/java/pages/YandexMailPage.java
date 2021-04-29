@@ -177,7 +177,11 @@ public class YandexMailPage {
         clickBodyMailForSend();
         clickAndsStBodyMailForSend(quantityMail);
         clickLinkBackToMainPage();
+    }
+
+    public int getCurrentQuantityMail(String theme) {
         searchMailInInput(theme);
         clickFindButton();
+        return generateAndReturnQuantityMail();
     }
 }
