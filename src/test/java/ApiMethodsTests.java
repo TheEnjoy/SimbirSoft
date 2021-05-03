@@ -1,66 +1,43 @@
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import io.restassured.parsing.Parser;
-import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
 public class ApiMethodsTests {
-    static ExtractableResponse<Response> doGetRequest(String endpoint, int id) {
-        RestAssured.defaultParser = Parser.JSON;
-        if (id == 0) {
-            return
-                    given().contentType(ContentType.JSON)
-                            .accept(ContentType.JSON)
-                            .when().get(endpoint)
-                            .then().contentType(ContentType.JSON).statusCode(200).extract();
-        }
-        return
-                given().contentType(ContentType.JSON)
-                        .accept(ContentType.JSON)
-                        .when().get(endpoint, id)
-                        .then().contentType(ContentType.JSON).statusCode(200).extract();
-    }
-
     @BeforeSuite
     void set_base_url() {
-        RestAssured.baseURI = "https://reqres.in";
+        Request.setUrl();
     }
 
     @Test
-    void
-    posts_response_return_200_with_expected_george_users() {
-        Response response = doGetRequest(EndPoints.USERS, 0).response();
-        List<Integer> idList = response.jsonPath().getList("data");
+    void posts_response_return_200_with_expected_george_users() {
+        Response response = Request.doGetRequest(EndPoints.USERS, 0).response();
         List<Map<String, String>> userList = response.jsonPath().getList("data");
-        List<Map<String,String>> filtered = userList.stream()
+        List<Map<String, String>> filtered = userList.stream()
                 .filter(map -> "George".equals(map.get("first_name")) && "Bluth".equals(map.get("last_name")))
                 .distinct()
                 .collect(Collectors.toList());
-        filtered.forEach(entry ->
-                assertThat(entry.get("email").toLowerCase(Locale.ROOT), equalTo("george.bluth@reqres.in")));
+        filtered.forEach(entry -> assertThat(entry.get("email").toLowerCase(Locale.ROOT),
+                equalTo("george.bluth@reqres.in")));
 
     }
 
     @Test
-    void
-    posts_response_return_200_with_expected_michael() {
-        Response response = doGetRequest(EndPoints.USERS, 0).response();
+    void posts_response_return_200_with_expected_michael() {
+        Response response = Request.doGetRequest(EndPoints.USERS, 0).response();
         int totalPages = response.jsonPath().getInt("total_pages");
-        List<Map<String,String>> filtered = null;
-        List<Map<String, String>> userList = null;
+        List<Map<String, String>> filtered = null;
+        List<Map<String, String>> userList;
         for (int i = 1; i <= totalPages; i++) {
-            response = doGetRequest(EndPoints.PAGE, i).response();
-            //assertThat(response, hasSize(10));
+            response = Request.doGetRequest(EndPoints.PAGE, i).response();
             userList = response.jsonPath().getList("data");
             filtered = userList.stream()
                     .filter(map -> "Michael".equals(map.get("first_name"))
