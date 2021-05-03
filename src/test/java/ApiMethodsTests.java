@@ -18,7 +18,7 @@ public class ApiMethodsTests {
     }
 
     @Test
-    void posts_response_return_200_with_expected_george_users() {
+    public void posts_response_return_200_with_expected_george_users() {
         Response response = Request.doGetRequest(EndPoints.USERS, 0).response();
         List<Map<String, String>> userList = response.jsonPath().getList("data");
         List<Map<String, String>> filtered = userList.stream()
@@ -31,7 +31,7 @@ public class ApiMethodsTests {
     }
 
     @Test
-    void posts_response_return_200_with_expected_michael() {
+    public void posts_response_return_200_with_expected_michael() {
         Response response = Request.doGetRequest(EndPoints.USERS, 0).response();
         int totalPages = response.jsonPath().getInt("total_pages");
         List<Map<String, String>> filtered = null;
