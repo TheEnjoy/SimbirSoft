@@ -1,8 +1,11 @@
 import io.restassured.response.Response;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -12,14 +15,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 public class ApiMethodsTests {
-    @BeforeSuite
-    void set_base_url() {
-        Request.setUrl();
+    @BeforeClass
+    void setBaseUrl() {
+        Request.setBaseURL("https://reqres.in");
+//        Request.setPath("");
+        Request.path = "/api/users";
     }
 
     @Test
-    public void posts_response_return_200_with_expected_george_users() {
-        Response response = Request.doGetRequest(EndPoints.USERS, 0).response();
+    public void postsResponseWithExpectedGeorgeUsers() {
+        HashMap<String, Integer> paramUrl = new HashMap<>();
+        Response response = Request.doGetRequest(paramUrl).response();
         List<Map<String, String>> userList = response.jsonPath().getList("data");
         List<Map<String, String>> filtered = userList.stream()
                 .filter(map -> "George".equals(map.get("first_name")) && "Bluth".equals(map.get("last_name")))
@@ -31,13 +37,15 @@ public class ApiMethodsTests {
     }
 
     @Test
-    public void posts_response_return_200_with_expected_michael() {
-        Response response = Request.doGetRequest(EndPoints.USERS, 0).response();
+    public void postsResponseWithExpectedMichael() {
+        HashMap<String, Integer> paramUrl = new HashMap<>();
+        Response response = Request.doGetRequest(paramUrl).response();
         int totalPages = response.jsonPath().getInt("total_pages");
         List<Map<String, String>> filtered = null;
         List<Map<String, String>> userList;
         for (int i = 1; i <= totalPages; i++) {
-            response = Request.doGetRequest(EndPoints.PAGE, i).response();
+            paramUrl.put("page", i);
+            response = Request.doGetRequest(paramUrl).response();
             userList = response.jsonPath().getList("data");
             filtered = userList.stream()
                     .filter(map -> "Michael".equals(map.get("first_name"))

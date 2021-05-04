@@ -4,26 +4,31 @@ import io.restassured.parsing.Parser;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import static io.restassured.RestAssured.basePath;
 import static io.restassured.RestAssured.given;
 
 public class Request {
-    static ExtractableResponse<Response> doGetRequest(String endpoint, int pageId) {
+    public static String path = "";
+
+    public static ExtractableResponse<Response> doGetRequest(HashMap<String, Integer> paramsEndpoint) {
         RestAssured.defaultParser = Parser.JSON;
-        if (pageId == 0) {
-            return
-                    given().contentType(ContentType.JSON)
-                            .accept(ContentType.JSON)
-                            .when().get(endpoint)
-                            .then().contentType(ContentType.JSON).statusCode(200).extract();
-        }
         return
-                given().contentType(ContentType.JSON)
+                given().log().all().contentType(ContentType.JSON)
                         .accept(ContentType.JSON)
-                        .when().get(endpoint, pageId)
+                        .params(paramsEndpoint)
+                        .when().get(path)
                         .then().contentType(ContentType.JSON).statusCode(200).extract();
     }
 
-    public static String setUrl(){
-        return RestAssured.baseURI = "https://reqres.in";
+    public static void setBaseURL(String baseURI) {
+        RestAssured.baseURI = baseURI;
+    }
+
+    public static void setPath(String path) {
+//        RestAssured.basePath = path;
+//        "/api/users"
     }
 }
