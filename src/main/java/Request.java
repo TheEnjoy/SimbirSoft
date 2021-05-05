@@ -11,24 +11,17 @@ import static io.restassured.RestAssured.basePath;
 import static io.restassured.RestAssured.given;
 
 public class Request {
-    public static String path = "";
-
-    public static ExtractableResponse<Response> doGetRequest(HashMap<String, Integer> paramsEndpoint) {
+    protected ExtractableResponse<Response> get(String url, String path, HashMap<String, Integer> params) {
         RestAssured.defaultParser = Parser.JSON;
         return
-                given().log().all().contentType(ContentType.JSON)
+                given().log()
+                        .all()
+                        .baseUri(url)
+                        .contentType(ContentType.JSON)
                         .accept(ContentType.JSON)
-                        .params(paramsEndpoint)
+                        .params(params)
                         .when().get(path)
                         .then().contentType(ContentType.JSON).statusCode(200).extract();
     }
 
-    public static void setBaseURL(String baseURI) {
-        RestAssured.baseURI = baseURI;
-    }
-
-    public static void setPath(String path) {
-//        RestAssured.basePath = path;
-//        "/api/users"
-    }
 }
