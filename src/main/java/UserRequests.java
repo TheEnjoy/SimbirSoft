@@ -5,11 +5,10 @@ import java.util.HashMap;
 
 public class UserRequests {
 
-    public static ExtractableResponse<Response> getUserRequest(HashMap<String, Integer> params) {
+    public static ExtractableResponse<Response> getUsers(HashMap<String, Integer> params) {
         String path = "/api/users";
-        String url = "https://reqres.in";
         Request customRequest = new Request();
-        return customRequest.get(url, path, params);
+        return customRequest.get(path, params);
     }
 
 }

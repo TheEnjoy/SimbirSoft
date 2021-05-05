@@ -19,7 +19,7 @@ public class ApiMethodsTests {
     @Test
     public void postsResponseWithExpectedGeorgeUsers() {
         HashMap<String, Integer> paramUrl = new HashMap<>();
-        Response response = UserRequests.getUserRequest(paramUrl).response();
+        Response response = UserRequests.getUsers(paramUrl).response();
         List<Map<String, String>> userList = response.jsonPath().getList("data");
         List<Map<String, String>> filtered = userList.stream()
                 .filter(map -> "George".equals(map.get("first_name")) && "Bluth".equals(map.get("last_name")))
@@ -33,13 +33,13 @@ public class ApiMethodsTests {
     @Test
     public void postsResponseWithExpectedMichael() {
         HashMap<String, Integer> paramUrl = new HashMap<>();
-        Response response = UserRequests.getUserRequest(paramUrl).response();
+        Response response = UserRequests.getUsers(paramUrl).response();
         int totalPages = response.jsonPath().getInt("total_pages");
         List<Map<String, String>> filtered = null;
         List<Map<String, String>> userList;
         for (int i = 1; i <= totalPages; i++) {
             paramUrl.put("page", i);
-            response = UserRequests.getUserRequest(paramUrl).response();
+            response = UserRequests.getUsers(paramUrl).response();
             userList = response.jsonPath().getList("data");
             filtered = userList.stream()
                     .filter(map -> "Michael".equals(map.get("first_name"))

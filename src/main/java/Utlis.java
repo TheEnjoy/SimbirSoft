@@ -59,9 +59,4 @@ public class Utlis {
         }
     }
 
-    public static <T> List<T> getList(T... elements){
-        List<T> lst = new ArrayList<>();
-        Collections.addAll(lst, elements);
-        return lst;
-    }
 }

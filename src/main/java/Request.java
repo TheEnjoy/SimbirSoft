@@ -5,18 +5,17 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
 import java.util.HashMap;
-import java.util.Map;
 
-import static io.restassured.RestAssured.basePath;
 import static io.restassured.RestAssured.given;
 
 public class Request {
-    protected ExtractableResponse<Response> get(String url, String path, HashMap<String, Integer> params) {
+    private static final String URL = "https://reqres.in";
+    protected ExtractableResponse<Response> get(String path, HashMap<String, Integer> params) {
         RestAssured.defaultParser = Parser.JSON;
         return
                 given().log()
                         .all()
-                        .baseUri(url)
+                        .baseUri(URL)
                         .contentType(ContentType.JSON)
                         .accept(ContentType.JSON)
                         .params(params)
