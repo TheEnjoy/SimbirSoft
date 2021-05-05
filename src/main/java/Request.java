@@ -10,6 +10,7 @@ import static io.restassured.RestAssured.given;
 
 public class Request {
     private static final String URL = "https://reqres.in";
+
     protected ExtractableResponse<Response> get(String path, HashMap<String, Integer> params) {
         RestAssured.defaultParser = Parser.JSON;
         return
