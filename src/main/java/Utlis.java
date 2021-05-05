@@ -2,8 +2,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
-import java.util.Properties;
+import java.util.*;
 
 public class Utlis {
     static InputStream inputStream;
@@ -59,4 +58,5 @@ public class Utlis {
                 return String.format("Найдено %s писем", number);
         }
     }
+
 }
